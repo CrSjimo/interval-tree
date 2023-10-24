@@ -1,17 +1,15 @@
 cmake_minimum_required(VERSION 3.11)
 
-include(cmake/options.cmake)
-
 project(interval-tree)
 
 add_library(interval-tree INTERFACE)
 
-target_include_directories(interval-tree INTERFACE ./include)
+target_include_directories(interval-tree INTERFACE
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
 
-if(INT_TREE_DRAW_EXAMPLES)
-    add_subdirectory(cairo-wrap)
-    add_subdirectory(drawings)
-endif()
-if (INT_TREE_ENABLE_TESTS)
-    add_subdirectory(tests)
-endif()
+install(
+    DIRECTORY ${PROJECT_SOURCE_DIR}/include/
+    DESTINATION include
+)
